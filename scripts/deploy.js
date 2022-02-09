@@ -22,9 +22,14 @@ async function main() {
   const lemToken = await LEMToken.deploy("Lemonde", "LEM");
   await lemToken.deployed();
 
+  const QuizToken = await hre.ethers.getContractFactory("Quiz");
+  const quizToken = await QuizToken.deploy();
+  await quizToken.deployed();
+
   console.log("token deployed to", token.address);
   console.log("greeter deployed to", greeter.address);
   console.log("lem deployed to", lemToken.address);
+  console.log("quic", quizToken.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
