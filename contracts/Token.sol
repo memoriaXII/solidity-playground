@@ -4,9 +4,9 @@ pragma solidity ^0.8.3;
 import "hardhat/console.sol";
 
 contract Token {
-  string public name = "Nader Dabit Token";
-  string public symbol = "NDT";
-  uint public totalSupply = 1000000;
+  string public name = "ohmygod";
+  string public symbol = "OMG";
+  uint public totalSupply = 10000000000;
   address public owner;
   mapping(address => uint) balances;
 
@@ -23,6 +23,7 @@ contract Token {
     require(balances[msg.sender]>=amount,'not enough tokens');
     balances[msg.sender]-= amount;
     balances[_to]+=amount;
+    // _to.transfer(amount);
 
   }
 

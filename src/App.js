@@ -4,11 +4,16 @@ import { ethers } from "ethers";
 import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
 import Token from "./artifacts/contracts/Token.sol/Token.json";
 import LEM from "./artifacts/contracts/LEMToken.sol/LEMToken.json";
+import Fallback from "./artifacts/contracts/FallbackSample.sol/FallbackSample.json";
 
 const greeterAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
-const tokenAddress = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const tokenAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
 
 const lemAddress = "0x68B1D87F95878fE05B998F19b66F4baba5De1aed";
+
+const fallbackSampleAddress = "0x610178dA211FEF7D417bC0e6FeD39F05609AD788";
+
+//0x70997970C51812dc3A010C7d01b50e0d17dc79C8
 
 function App() {
   const [greeting, setGreetingValue] = useState("");
@@ -36,6 +41,24 @@ function App() {
       }
     }
   }
+
+  const receiveMoney = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      const [account] = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(
+        fallbackSampleAddress,
+        Fallback.abi,
+        signer
+      );
+      const transaction = await contract.receiveMoney();
+      await transaction.wait();
+      console.log(transaction, "trigger");
+    }
+  };
 
   async function getBalance() {
     if (typeof window.ethereum !== "undefined") {
@@ -120,6 +143,7 @@ function App() {
         />
 
         <br />
+        <button onClick={receiveMoney}>receiveMoney</button>
         <button onClick={getBalance}>Get Balance</button>
         <button onClick={getLEMBalance}>Get LEM balance</button>
         <button onClick={sendCoins}>Send Coins</button>

@@ -16,6 +16,7 @@ contract Quiz is ERC721, AccessControl {
 
     function mint(address account, uint256 tokenId) public payable onlyRole(MINTER_ROLE)  {
         require(msg.value == 0.1 ether);
+        
         _mint(account, tokenId);
     }
     function batchMint(address to, uint256[] memory tokenIds) public payable onlyRole(MINTER_ROLE) {
