@@ -2,10 +2,6 @@
 
 1. Clone the repo
 
-```sh
-git clone https://github.com/dabit3/full-stack-ethereum.git
-```
-
 2. Install the dependencies
 
 ```sh
