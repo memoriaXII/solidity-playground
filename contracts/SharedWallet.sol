@@ -5,8 +5,12 @@
 pragma solidity ^0.8.0;
 
 import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/access/Ownable.sol";
+import "https://github.com/OpenZeppelin/openzeppelin-contracts/contracts/utils/math/SafeMath.sol";
 
 contract Allowance is Ownable {
+
+    using SafeMath for uint;
+
     event AllowanceChanged(
         address indexed _fromWho,
         address indexed _fromWhom,
@@ -44,15 +48,20 @@ contract Allowance is Ownable {
             _who,
             msg.sender,
             allowance[_who],
-            allowance[_who] - _amount
+            allowance[_who].sub(_amount)
         );
-        allowance[_who] -= _amount;
+        allowance[_who] = allowance[_who].sub( _amount);
     }
 }
 
 contract SharedWallet is Allowance {
     event MoneySent(address indexed _beneficiary, uint256 _amount);
     event MoneyReceived(address indexed _from, uint256 _amount);
+
+      function renounceOwnership() public onlyOwner override view {
+        revert("Can't renounce ownership here");
+    }
+
 
     function withdrawMoney(address payable _to, uint256 _amount)
         public
