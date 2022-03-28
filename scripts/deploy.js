@@ -16,6 +16,10 @@ async function main() {
 
   console.log("address", fallbackSample.address);
 
+  const Greet = await hre.ethers.getContractFactory("Greet");
+  const greet = await Greet.deploy();
+  await greet.deployed();
+
   // const Greeter = await hre.ethers.getContractFactory("Greeter");
   // const greeter = await Greeter.deploy("greeting");
   // await greeter.deployed();
